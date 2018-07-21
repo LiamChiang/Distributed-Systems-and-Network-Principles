@@ -1,0 +1,171 @@
+import java.util.ArrayList;
+import java.io.*;
+import java.net.InetAddress;
+
+public class ServerInfoList {
+
+    ArrayList<ServerInfo> serverInfos;
+
+    public ServerInfoList() {
+        serverInfos = new ArrayList<>();
+    }
+
+    static boolean checkhost(String host) {
+        try{
+            InetAddress.getByName(host);
+            return true;
+        }
+        catch(IOException e){
+            return false;
+        }
+    }
+
+    public void initialiseFromFile(String filename) {
+        
+        try{
+            File file = new File(filename);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuffer stringBuffer = new StringBuffer();
+            String line;
+            int size = 0;
+            String[] host = new String[size];
+            String[] port = new String[size];
+            while((line = bufferedReader.readLine()) != null){
+                String[] data = line.split("\\=");
+                if(data.length != 2){
+                    continue;
+                }
+                if(line.startsWith("server")){
+                    if(data[0].matches("servers.num") && data[1].matches("[0-9]+")){
+                        try{
+                            size = Integer.parseInt(data[1]);
+                        }
+                        catch(NumberFormatException e){
+                            // System.err.println(e);   
+                            // System.out.println(size + " is an Unavailable number");
+                            continue;
+                        }
+                        host = new String[size];
+                        port = new String[size];
+                    }
+                    else{
+                        String[] server_data = data[0].split("\\.");
+                        for(int i = 0; i < size; i++){
+                            String inputs = "server"+Integer.toString(i);
+                            if (server_data[0].equals(inputs)){
+                                if(data[0].contains("host")){ 
+                                    if(checkhost(data[1]) == true){
+                                        host[i] = data[1];
+                                    }
+                                }
+                                if(data[0].contains("port")){
+                                    try{
+                                        int portnumber = Integer.parseInt(data[1]);
+                                        if(1024 <= portnumber && portnumber <= 65535){
+                                            port[i] = data[1];   
+                                        }
+                                    }
+                                    catch(NumberFormatException e){
+                                        // continue;
+                                        // System.err.println(e);
+                                        System.out.print(inputs +" is an unavailable port\n\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for(int i = 0; i < size; i++){
+                if(host[i] == null || port[i] == null){
+                    serverInfos.add(i, null);
+                }
+                else{
+                    int portvalue = 0;
+                    try{
+                        portvalue = Integer.parseInt(port[i]);
+                        ServerInfo value = new ServerInfo(host[i], portvalue);
+                        value.setHost(host[i]);
+                        value.setPort(portvalue);
+                        serverInfos.add(value);
+                    }
+                    catch(NumberFormatException e){
+                        // System.err.println(e);
+                        // continue;
+                        System.out.print(portvalue+" has an Unavailable number\n\n");
+                    }
+                }
+            }
+
+            fileReader.close();
+
+        }
+        catch(FileNotFoundException e){
+            System.err.println("File unavailable");
+            return;
+        }
+        catch(IOException e){
+            System.err.println("File unavailable");
+            return;   
+        }
+    }
+
+    public ArrayList<ServerInfo> getServerInfos() {
+        return serverInfos;
+    }
+
+    public void setServerInfos(ArrayList<ServerInfo> serverInfos) {
+        this.serverInfos = serverInfos;
+    }
+
+    public boolean addServerInfo(ServerInfo newServerInfo) { 
+        if(checkhost(newServerInfo.getHost()) == true && newServerInfo.getPort() <= 65535 && newServerInfo.getPort()>=1024){
+            serverInfos.add(newServerInfo);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateServerInfo(int index, ServerInfo newServerInfo) { 
+        if(index >= 0 && checkhost(newServerInfo.getHost()) == true && newServerInfo.getPort() <= 65535 && newServerInfo.getPort()>=1024){
+            if(index>=serverInfos.size()){
+               serverInfos.add(index, newServerInfo); 
+            }
+            serverInfos.set(index, newServerInfo);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean removeServerInfo(int index) { 
+        if(index < serverInfos.size() && index >=0){
+            serverInfos.set(index, null);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean clearServerInfo() { 
+        for(int i = 0; i < serverInfos.size(); i++){
+            if(serverInfos.get(i) == null){
+                serverInfos.remove(serverInfos.get(i));
+                return true;
+                
+            }
+        }
+        return true;
+    }
+
+    public String toString() {
+        String s = "";
+        for (int i = 0; i < serverInfos.size(); i++) {
+            if (serverInfos.get(i) != null) {
+                s += "Server" + i + ": " + serverInfos.get(i).getHost() + " " + serverInfos.get(i).getPort() + "\n";
+            }
+        }
+        return s;
+    }
+
+    // implement any helper method here if you need any
+}

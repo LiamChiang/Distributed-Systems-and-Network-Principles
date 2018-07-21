@@ -1,0 +1,127 @@
+
+
+import static org.junit.Assert.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class WhiteBoxTest{
+	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+	
+	@Before
+	public void setUpStreams() {
+	    System.setOut(new PrintStream(outContent));
+	    System.setErr(new PrintStream(errContent));
+	}
+	//BlockchainServer port testing
+	@Test
+	public void ServerPortNumberNullPointerTest(){
+		String[] emptyarg = {}; 
+		BlockchainServer.main(emptyarg);
+		assertEquals("Invalid PortNumber\n", errContent.toString());
+		errContent.reset();
+	}
+	
+	@Test
+	public void ServerPortNumberFormatExceptionTest() {
+		String[] invalidarg = {"AKFBHSFsasd414=41124124"};
+		BlockchainServer.main(invalidarg);
+		assertEquals("Unavailable PortNumber\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg1 = {"123afasfxdgfcjcfgc"};
+		BlockchainServer.main(invalidarg1);
+		assertEquals("Unavailable PortNumber\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg2 = {"24234@#@!#!@#@"};
+		BlockchainServer.main(invalidarg2);
+		assertEquals("Unavailable PortNumber\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg3 = {"123123131231241234567890981312312313123131311313111313113131131311313113131"
+				+ "31311313113131131311313113131131311313113131131311313113131131311313113131131311313113131"
+				+ "131311313113131131311313113131131311313113131131311313113131131311313113131131311313113131"
+				+ "131311313113131131311313113131131311313113131131311313113131131311313113131131311313113131"};
+				
+		BlockchainServer.main(invalidarg3);
+		assertEquals("Unavailable PortNumber\n", errContent.toString());
+		errContent.reset();
+		
+	}
+	@Test
+	public void ServerPortNumberOutOfRange() {
+		String[] invalidarg1 = {"0"};
+		BlockchainServer.main(invalidarg1);
+		assertEquals("PortNumber Out Of Range\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg2 = {"00000000000"};
+		BlockchainServer.main(invalidarg2);
+		assertEquals("PortNumber Out Of Range\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg3 = {"0.1"};
+		BlockchainServer.main(invalidarg3);
+		assertEquals("PortNumber Out Of Range\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg4 = {"7000000"};
+		BlockchainServer.main(invalidarg4);
+		assertEquals("PortNumber Out Of Range\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg5 = {"8000000"};
+		BlockchainServer.main(invalidarg5);
+		assertEquals("PortNumber Out Of Range\n", errContent.toString());
+		errContent.reset();
+		
+		String[] invalidarg6 = {"10000000"};
+		BlockchainServer.main(invalidarg6);
+		assertEquals("PortNumber Out Of Range\n", errContent.toString());
+		errContent.reset();
+	}
+	
+	//ServerClient Exception testing
+	@Test
+	public void test3() {
+		String[] testfile = {"testing.txt"}; 
+//		BlockchainClient.main(testfile);
+	}
+	@Test
+	public void test4() {
+		
+	}
+	@Test
+	public void test5() {
+		
+	}
+	@Test
+	public void test6() {
+		
+	}
+	@Test
+	public void test7() {
+		
+	}
+	@Test
+	public void test8() {
+		
+	}
+	@Test
+	public void test() {
+		
+	}
+	@After
+	public void cleanUpStreams() {
+	    System.setOut(null);
+	    System.setErr(null);
+	}
+	
+
+}

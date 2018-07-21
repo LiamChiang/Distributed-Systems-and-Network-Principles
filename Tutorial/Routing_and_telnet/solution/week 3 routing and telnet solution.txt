@@ -1,0 +1,48 @@
+Ex. 1
+
+Table A:
+
+A local 0
+B 1 1
+C 1 2
+D 3 1
+E 1 2
+
+Table B:
+
+A 1 1
+B local 0
+C 2 1
+D 1 2
+E 4 1
+
+
+Table C:
+
+A 2 2
+B 2 1 
+C local 0
+D 5 2
+E 5 1
+
+
+Table D:
+
+A 3 1 
+B 3 2
+C 6 2
+D local 0
+E 6 1
+
+
+Table E:
+
+A 4 2
+B 4 1
+C 5 1
+D 6 1
+E local 0
+
+
+As soon as a node detects that one of its outgoing link fails, it updates its local table by setting the cost of the appropriate link to infinity, which triggers a resend to the neighbours. The routing protocol then re-executes, this may incur a change of the routing table of every router.
+

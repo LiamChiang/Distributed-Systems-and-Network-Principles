@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move 5 elements to &apos;Assignments/src/(default package)&apos;&#x0A;- Original project: &apos;Assignments&apos;&#x0A;- Destination element: &apos;Assignments/src/(default package)&apos;&#x0A;- Original elements:&#x0A;     Transaction.java&#x0A;     BlockchainServer.java&#x0A;     Blockchain.java&#x0A;     BlockchainClient.java&#x0A;     Block.java&#x0A;- Update references to refactored element" description="Move files" destination="/src&lt;" element1="Transaction.java" element2="BlockchainServer.java" element3="Blockchain.java" element4="BlockchainClient.java" element5="Block.java" files="5" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1505708773459" units="0" version="1.0"/>
+</session>

@@ -1,0 +1,4 @@
+
+public class BlockTest extends Transaction, Blockchain{
+	
+}

@@ -1,0 +1,21 @@
+import java.util.ArrayList;
+
+public class Block {
+	private Block previousBlock;
+	private byte[] previousHash;
+	private ArrayList<Transaction> transactions;
+	
+	public Block() {
+		transactions = new ArrayList<>();
+	}
+	
+	public Block getPreviousBlock(){return previousBlock;}
+	public byte[] getPreviousHash(){return previousHash;}
+	public ArrayList<Transaction> getTransactions(){return transactions;}
+	public void setPreviousBlock(Block previousBlock){this.previousBlock = previousBlock;}
+	public void setPreviousHash(byte[] previousHash){this.previousHash = previousHash;}
+	public void setTransactions(ArrayList<Transaction> transaction){
+		this.transactions = transactions;
+	}
+	
+}
